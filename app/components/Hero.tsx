@@ -167,6 +167,14 @@ function AutomationFlow() {
   const [svgSize, setSvgSize] = useState({ w: 0, h: 0 })
   const [inputPaths, setInputPaths] = useState<{ d: string; color: string }[]>([])
   const [outputPaths, setOutputPaths] = useState<{ d: string; color: string }[]>([])
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 480)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     if (hovered) return
@@ -207,10 +215,12 @@ function AutomationFlow() {
   }, [])
 
   useEffect(() => {
-    const id = setTimeout(buildPaths, 60)
+    const id = setTimeout(buildPaths, 80)
     window.addEventListener('resize', buildPaths)
     return () => { clearTimeout(id); window.removeEventListener('resize', buildPaths) }
-  }, [buildPaths])
+  }, [buildPaths, isMobile])
+
+  const centerColWidth = isMobile ? 56 : 80
 
   return (
     <div className="rounded-2xl overflow-hidden" style={{
@@ -219,27 +229,27 @@ function AutomationFlow() {
       boxShadow: '0 0 15px rgba(124,58,237,0.25), 0 0 50px rgba(124,58,237,0.1), 0 24px 64px rgba(0,0,0,0.5)',
     }}>
       {/* Header */}
-      <div className="flex items-center justify-between px-5 py-3.5" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+      <div className="flex items-center justify-between px-4 sm:px-5 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-brand-purple animate-glow-pulse" />
-          <span className="text-[11px] font-bold tracking-widest text-gray-500 uppercase">Flujo activo</span>
+          <span className="text-[10px] sm:text-[11px] font-bold tracking-widest text-gray-500 uppercase">Flujo activo</span>
         </div>
-        <span className="flex items-center gap-1.5 text-[11px] text-emerald-400 font-medium bg-emerald-400/8 border border-emerald-400/20 px-2.5 py-1 rounded-full">
+        <span className="flex items-center gap-1.5 text-[10px] sm:text-[11px] text-emerald-400 font-medium bg-emerald-400/8 border border-emerald-400/20 px-2 py-0.5 rounded-full">
           <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
           En vivo
         </span>
       </div>
 
       {/* Flow diagram */}
-      <div className="p-5">
+      <div className="p-3 sm:p-5">
         <div
           ref={containerRef}
           style={{
             position: 'relative',
             display: 'grid',
-            gridTemplateColumns: '1fr 80px 1fr',
+            gridTemplateColumns: `1fr ${centerColWidth}px 1fr`,
             gridTemplateRows: 'repeat(3, auto)',
-            rowGap: '10px',
+            rowGap: isMobile ? '8px' : '10px',
             alignItems: 'center',
           }}
         >
@@ -263,7 +273,7 @@ function AutomationFlow() {
                 )
               })}
               {outputPaths.map(({ d, color }, i) => {
-                const pairingMap = [2, 1, 0] // output[0]=CRM↔Formulario, output[1]=Agenda↔Email, output[2]=Reportes↔WhatsApp
+                const pairingMap = [2, 1, 0]
                 const pairedInput = pairingMap[i]
                 const isAuto = !hovered && activeLine === pairedInput
                 const isHoverOut = hovered?.side === 'out' && hovered.idx === i
@@ -296,7 +306,7 @@ function AutomationFlow() {
                   ref={el => { inputNodeRefs.current[i] = el }}
                   onMouseEnter={() => setHovered({ side: 'in', idx: i })}
                   onMouseLeave={() => setHovered(null)}
-                  className="flex items-center gap-2 px-3 py-2.5 rounded-xl transition-all duration-300 w-fit cursor-pointer"
+                  className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-2 sm:py-2.5 rounded-xl transition-all duration-300 w-fit cursor-pointer"
                   style={{
                     background: isActive ? `${n.color}18` : 'rgba(255,255,255,0.03)',
                     border: `1px solid ${isActive ? n.color + '55' : 'rgba(255,255,255,0.06)'}`,
@@ -305,11 +315,11 @@ function AutomationFlow() {
                     boxShadow: isActive ? `0 0 20px ${n.color}30` : 'none',
                   }}
                 >
-                  <span className="w-[26px] h-[26px] rounded-lg flex items-center justify-center flex-shrink-0"
+                  <span className="w-6 h-6 sm:w-[26px] sm:h-[26px] rounded-lg flex items-center justify-center flex-shrink-0"
                     style={{ background: `${n.color}22`, color: n.color }}>
                     {n.icon}
                   </span>
-                  <span className="text-xs font-medium text-gray-300 whitespace-nowrap">{n.label}</span>
+                  <span className="text-[11px] sm:text-xs font-medium text-gray-300 whitespace-nowrap">{n.label}</span>
                 </div>
               </div>
             )
@@ -320,14 +330,14 @@ function AutomationFlow() {
             <div className="relative">
               <div
                 ref={centerNodeRef}
-                className="w-[56px] h-[56px] rounded-2xl flex items-center justify-center relative z-10"
+                className="w-10 h-10 sm:w-[56px] sm:h-[56px] rounded-2xl flex items-center justify-center relative z-10"
                 style={{
                   background: 'linear-gradient(135deg, rgba(124,58,237,0.45) 0%, rgba(6,182,212,0.28) 100%)',
                   border: '1.5px solid rgba(124,58,237,0.65)',
                   boxShadow: '0 0 32px rgba(124,58,237,0.3), 0 0 60px rgba(124,58,237,0.12)',
                 }}
               >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="sm:w-[22px] sm:h-[22px]">
                   <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#A78BFA" strokeWidth="1.5" strokeLinejoin="round" />
                   <path d="M2 17l10 5 10-5" stroke="#A78BFA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   <path d="M2 12l10 5 10-5" stroke="#06B6D4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.8" />
@@ -355,7 +365,7 @@ function AutomationFlow() {
                 ref={el => { outputNodeRefs.current[i] = el }}
                 onMouseEnter={() => setHovered({ side: 'out', idx: i })}
                 onMouseLeave={() => setHovered(null)}
-                className="flex items-center gap-2 px-3 py-2.5 rounded-xl flex-shrink-0 transition-all duration-300 cursor-pointer"
+                className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-2 sm:py-2.5 rounded-xl flex-shrink-0 transition-all duration-300 cursor-pointer"
                 style={{
                   background: isActive ? `${n.color}18` : `${n.color}10`,
                   border: `1px solid ${isActive ? n.color + '55' : n.color + '30'}`,
@@ -364,13 +374,13 @@ function AutomationFlow() {
                   boxShadow: isActive ? `0 0 20px ${n.color}30` : 'none',
                 }}
               >
-                <span className="w-[26px] h-[26px] rounded-lg flex items-center justify-center flex-shrink-0"
+                <span className="w-6 h-6 sm:w-[26px] sm:h-[26px] rounded-lg flex items-center justify-center flex-shrink-0"
                   style={{ background: `${n.color}22`, color: n.color }}>
                   {n.icon}
                 </span>
                 <div className="min-w-0">
-                  <div className="text-xs font-semibold text-gray-200 leading-tight whitespace-nowrap">{n.label}</div>
-                  <div className="text-[10px] text-gray-600 mt-0.5 whitespace-nowrap">{n.stat}</div>
+                  <div className="text-[11px] sm:text-xs font-semibold text-gray-200 leading-tight whitespace-nowrap">{n.label}</div>
+                  <div className="text-[9px] sm:text-[10px] text-gray-600 mt-0.5 whitespace-nowrap">{n.stat}</div>
                 </div>
               </div>
             </div>
@@ -386,9 +396,9 @@ function AutomationFlow() {
           { v: '< 2 min', l: 'Respuesta' },
           { v: '−80%', l: 'Trabajo manual' },
         ].map((s, i) => (
-          <div key={s.l} className={`flex-1 px-3 py-3 text-center ${i > 0 ? 'border-l border-white/5' : ''}`}>
+          <div key={s.l} className={`flex-1 px-2 sm:px-3 py-2.5 text-center ${i > 0 ? 'border-l border-white/5' : ''}`}>
             <div className="text-xs font-bold gradient-text leading-none">{s.v}</div>
-            <div className="text-[10px] text-gray-600 mt-1">{s.l}</div>
+            <div className="text-[9px] sm:text-[10px] text-gray-600 mt-1">{s.l}</div>
           </div>
         ))}
       </div>
@@ -421,11 +431,11 @@ export default function Hero() {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16"
+      className="relative min-h-screen flex items-center overflow-hidden pt-20 pb-12 sm:pt-24 sm:pb-16"
     >
       {/* Ambient glows */}
-      <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-brand-purple/7 rounded-full blur-[140px] pointer-events-none animate-glow-pulse" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-brand-cyan/5 rounded-full blur-[110px] pointer-events-none animate-float-slow" />
+      <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] bg-brand-purple/7 rounded-full blur-[140px] pointer-events-none animate-glow-pulse hidden sm:block" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-brand-cyan/5 rounded-full blur-[110px] pointer-events-none animate-float-slow hidden sm:block" />
 
       {/* Mouse spotlight */}
       {hasMouse && (
@@ -437,65 +447,65 @@ export default function Hero() {
         }} />
       )}
 
-      {/* ── Floating animated objects ─────────────────────────────── */}
+      {/* ── Floating animated objects — hidden on mobile for performance ── */}
       {/* Hexagon top-right */}
-      <div className="absolute pointer-events-none" style={{ top: '12%', right: '6%', animation: 'float-a 9s ease-in-out infinite', opacity: 0.18 }}>
+      <div className="hidden sm:block absolute pointer-events-none" style={{ top: '12%', right: '6%', animation: 'float-a 9s ease-in-out infinite', opacity: 0.18 }}>
         <svg width="52" height="60" viewBox="0 0 52 60" fill="none">
           <polygon points="26,2 50,15 50,45 26,58 2,45 2,15" stroke="#9F67FF" strokeWidth="1.2" fill="none" />
           <polygon points="26,10 42,19 42,41 26,50 10,41 10,19" stroke="#06B6D4" strokeWidth="0.6" fill="none" opacity="0.5" />
         </svg>
       </div>
       {/* Hexagon bottom-left */}
-      <div className="absolute pointer-events-none" style={{ bottom: '18%', left: '3%', animation: 'float-c 12s ease-in-out infinite 2s', opacity: 0.12 }}>
+      <div className="hidden sm:block absolute pointer-events-none" style={{ bottom: '18%', left: '3%', animation: 'float-c 12s ease-in-out infinite 2s', opacity: 0.12 }}>
         <svg width="38" height="44" viewBox="0 0 52 60" fill="none">
           <polygon points="26,2 50,15 50,45 26,58 2,45 2,15" stroke="#06B6D4" strokeWidth="1.5" fill="none" />
         </svg>
       </div>
       {/* Small hexagon mid-left */}
-      <div className="absolute pointer-events-none" style={{ top: '45%', left: '7%', animation: 'float-b 7s ease-in-out infinite 1s', opacity: 0.14 }}>
+      <div className="hidden sm:block absolute pointer-events-none" style={{ top: '45%', left: '7%', animation: 'float-b 7s ease-in-out infinite 1s', opacity: 0.14 }}>
         <svg width="24" height="28" viewBox="0 0 52 60" fill="none">
           <polygon points="26,2 50,15 50,45 26,58 2,45 2,15" stroke="#9F67FF" strokeWidth="2" fill="rgba(159,103,255,0.04)" />
         </svg>
       </div>
       {/* Spinning ring top-left */}
-      <div className="absolute pointer-events-none" style={{ top: '20%', left: '12%', animation: 'spin-slow 14s linear infinite', opacity: 0.13 }}>
+      <div className="hidden sm:block absolute pointer-events-none" style={{ top: '20%', left: '12%', animation: 'spin-slow 14s linear infinite', opacity: 0.13 }}>
         <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
           <circle cx="22" cy="22" r="20" stroke="#7C3AED" strokeWidth="1" strokeDasharray="6 4" />
           <circle cx="22" cy="22" r="13" stroke="#06B6D4" strokeWidth="0.6" strokeDasharray="3 5" />
         </svg>
       </div>
       {/* Spinning ring bottom-right */}
-      <div className="absolute pointer-events-none" style={{ bottom: '25%', right: '10%', animation: 'spin-reverse 18s linear infinite', opacity: 0.11 }}>
+      <div className="hidden sm:block absolute pointer-events-none" style={{ bottom: '25%', right: '10%', animation: 'spin-reverse 18s linear infinite', opacity: 0.11 }}>
         <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
           <circle cx="30" cy="30" r="28" stroke="#9F67FF" strokeWidth="0.8" strokeDasharray="8 5" />
         </svg>
       </div>
       {/* Glowing dot cluster top-center */}
-      <div className="absolute pointer-events-none" style={{ top: '8%', left: '42%', animation: 'float-d 11s ease-in-out infinite 0.5s', opacity: 0.55 }}>
+      <div className="hidden sm:block absolute pointer-events-none" style={{ top: '8%', left: '42%', animation: 'float-d 11s ease-in-out infinite 0.5s', opacity: 0.55 }}>
         <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#9F67FF', boxShadow: '0 0 10px 3px rgba(159,103,255,0.5)' }} />
       </div>
-      <div className="absolute pointer-events-none" style={{ top: '15%', left: '38%', animation: 'drift-x 8s ease-in-out infinite 1.5s', opacity: 0.4 }}>
+      <div className="hidden sm:block absolute pointer-events-none" style={{ top: '15%', left: '38%', animation: 'drift-x 8s ease-in-out infinite 1.5s', opacity: 0.4 }}>
         <div style={{ width: 4, height: 4, borderRadius: '50%', background: '#06B6D4', boxShadow: '0 0 8px 2px rgba(6,182,212,0.5)' }} />
       </div>
       {/* Glowing dot bottom area */}
-      <div className="absolute pointer-events-none" style={{ bottom: '30%', left: '28%', animation: 'float-b 10s ease-in-out infinite 3s', opacity: 0.45 }}>
+      <div className="hidden sm:block absolute pointer-events-none" style={{ bottom: '30%', left: '28%', animation: 'float-b 10s ease-in-out infinite 3s', opacity: 0.45 }}>
         <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#06B6D4', boxShadow: '0 0 12px 3px rgba(6,182,212,0.45)' }} />
       </div>
       {/* Pulsing ring — large, center-right */}
-      <div className="absolute pointer-events-none" style={{ top: '30%', right: '18%', opacity: 0.12 }}>
+      <div className="hidden sm:block absolute pointer-events-none" style={{ top: '30%', right: '18%', opacity: 0.12 }}>
         <div style={{ width: 80, height: 80, borderRadius: '50%', border: '1px solid #7C3AED', animation: 'pulse-out 3.5s ease-out infinite' }} />
       </div>
-      <div className="absolute pointer-events-none" style={{ top: '30%', right: '18%', opacity: 0.08 }}>
+      <div className="hidden sm:block absolute pointer-events-none" style={{ top: '30%', right: '18%', opacity: 0.08 }}>
         <div style={{ width: 80, height: 80, borderRadius: '50%', border: '1px solid #06B6D4', animation: 'pulse-out 3.5s ease-out infinite 1.75s' }} />
       </div>
       {/* Cross / plus shape */}
-      <div className="absolute pointer-events-none" style={{ top: '65%', right: '4%', animation: 'float-a 13s ease-in-out infinite 4s', opacity: 0.16 }}>
+      <div className="hidden sm:block absolute pointer-events-none" style={{ top: '65%', right: '4%', animation: 'float-a 13s ease-in-out infinite 4s', opacity: 0.16 }}>
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
           <line x1="9" y1="0" x2="9" y2="18" stroke="#06B6D4" strokeWidth="1" />
           <line x1="0" y1="9" x2="18" y2="9" stroke="#06B6D4" strokeWidth="1" />
         </svg>
       </div>
-      <div className="absolute pointer-events-none" style={{ top: '78%', left: '18%', animation: 'float-c 15s ease-in-out infinite 2s', opacity: 0.13 }}>
+      <div className="hidden sm:block absolute pointer-events-none" style={{ top: '78%', left: '18%', animation: 'float-c 15s ease-in-out infinite 2s', opacity: 0.13 }}>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <line x1="7" y1="0" x2="7" y2="14" stroke="#9F67FF" strokeWidth="1" />
           <line x1="0" y1="7" x2="14" y2="7" stroke="#9F67FF" strokeWidth="1" />
@@ -512,13 +522,13 @@ export default function Hero() {
       }} />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 
           {/* LEFT: Text */}
           <div>
             {/* Badge */}
             <div
-              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-dark-border bg-dark-card/80 text-sm mb-8 animate-fade-in-up"
+              className="inline-flex items-center gap-2 px-3 py-2 sm:px-4 rounded-full border border-dark-border bg-dark-card/80 text-xs sm:text-sm mb-5 sm:mb-8 animate-fade-in-up"
               style={{ animationDelay: '0ms' }}
             >
               <span className="relative flex h-2 w-2 flex-shrink-0">
@@ -532,10 +542,10 @@ export default function Hero() {
 
             {/* Headline */}
             <h1
-              className="font-display font-bold tracking-tight mb-6 animate-fade-in-up"
+              className="font-display font-bold tracking-tight mb-5 sm:mb-6 animate-fade-in-up"
               style={{
-                fontSize: 'clamp(2.2rem, 4.5vw, 4rem)',
-                lineHeight: 1.08,
+                fontSize: 'clamp(1.9rem, 8vw, 4rem)',
+                lineHeight: 1.1,
                 animationDelay: '80ms',
               }}
             >
@@ -550,7 +560,7 @@ export default function Hero() {
 
             {/* Subheadline */}
             <p
-              className="text-base sm:text-lg text-gray-400 mb-10 leading-relaxed max-w-xl animate-fade-in-up"
+              className="text-base text-gray-400 mb-7 sm:mb-10 leading-relaxed max-w-xl animate-fade-in-up"
               style={{ animationDelay: '200ms' }}
             >
               Dejá de perder leads, de gastar horas en tareas repetitivas y de
@@ -561,29 +571,29 @@ export default function Hero() {
 
             {/* CTAs */}
             <div
-              className="flex flex-col sm:flex-row items-start gap-8 mb-12 animate-fade-in-up"
+              className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-4 mb-8 sm:mb-12 animate-fade-in-up"
               style={{ animationDelay: '320ms' }}
             >
-              <MagneticButton
+              <a
                 href="#contacto"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-brand-purple hover:bg-brand-purple-light transition-colors font-display font-semibold text-sm glow-purple cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-4 sm:py-3.5 rounded-xl bg-brand-purple hover:bg-brand-purple-light transition-colors font-display font-semibold text-sm glow-purple cursor-pointer min-h-[48px]"
               >
                 Agendar diagnóstico gratis
                 <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </MagneticButton>
-              <MagneticButton
+              </a>
+              <a
                 href="#como-funciona"
-                className="inline-flex items-center gap-1.5 px-7 py-3.5 rounded-xl border border-dark-border hover:border-brand-purple/40 transition-colors font-medium text-sm text-gray-400 hover:text-white cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 px-6 py-4 sm:py-3.5 rounded-xl border border-dark-border hover:border-brand-purple/40 transition-colors font-medium text-sm text-gray-400 hover:text-white cursor-pointer min-h-[48px]"
               >
                 ¿Cómo funciona? →
-              </MagneticButton>
+              </a>
             </div>
 
             {/* Trust badges */}
             <div
-              className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-10 text-[12px] text-gray-500 animate-fade-in-up"
+              className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-7 sm:mb-10 text-xs text-gray-500 animate-fade-in-up"
               style={{ animationDelay: '400ms' }}
             >
               {[
@@ -592,7 +602,7 @@ export default function Hero() {
                 'Respuesta en < 2h',
               ].map((t) => (
                 <span key={t} className="inline-flex items-center gap-1.5">
-                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" className="text-brand-cyan">
+                  <svg width="13" height="13" viewBox="0 0 16 16" fill="none" className="text-brand-cyan flex-shrink-0">
                     <path d="M13 4L6 11L3 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                   {t}
@@ -602,7 +612,7 @@ export default function Hero() {
 
             {/* Stats bar */}
             <div
-              className="animate-fade-in-up flex items-center gap-0 border border-dark-border rounded-2xl overflow-hidden bg-dark-card/60 max-w-sm"
+              className="animate-fade-in-up flex items-center gap-0 border border-dark-border rounded-2xl overflow-hidden bg-dark-card/60 w-full sm:max-w-sm"
               style={{ animationDelay: '440ms' }}
             >
               {[
@@ -612,19 +622,19 @@ export default function Hero() {
               ].map((s, i) => (
                 <div
                   key={s.label}
-                  className={`flex-1 text-center py-3.5 px-2 group cursor-default ${i === 1 ? 'border-x border-dark-border' : ''}`}
+                  className={`flex-1 text-center py-3 px-1 cursor-default ${i === 1 ? 'border-x border-dark-border' : ''}`}
                 >
-                  <div className="font-display text-xl sm:text-2xl font-bold gradient-text leading-none mb-0.5 group-hover:scale-110 transition-transform duration-200">
+                  <div className="font-display text-lg sm:text-2xl font-bold gradient-text leading-none mb-0.5">
                     {s.value}
                   </div>
-                  <div className="text-[10px] text-gray-600">{s.label}</div>
+                  <div className="text-[9px] sm:text-[10px] text-gray-600">{s.label}</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* RIGHT: Automation visual */}
-          <div className="animate-fade-in-right" style={{ animationDelay: '200ms' }}>
+          <div className="animate-fade-in-right mt-4 sm:mt-0" style={{ animationDelay: '200ms' }}>
             {/* Floating label */}
             <div className="flex items-center gap-2 mb-3">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent to-brand-purple/20" />

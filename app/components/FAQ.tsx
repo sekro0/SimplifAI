@@ -41,8 +41,8 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="py-24 relative">
-      <div className="section-divider mb-24" />
+    <section id="faq" className="py-14 sm:py-24 relative">
+      <div className="section-divider mb-14 sm:mb-24" />
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         {/* Header */}
@@ -61,17 +61,17 @@ export default function FAQ() {
             <div key={i}>
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                className="w-full flex items-start justify-between gap-4 py-6 text-left group"
+                className="w-full flex items-start justify-between gap-4 py-5 sm:py-6 text-left group min-h-[56px]"
               >
                 <span
-                  className={`font-display font-bold text-sm sm:text-base tracking-tight transition-colors duration-200 ${
+                  className={`font-display font-bold text-base tracking-tight transition-colors duration-200 ${
                     open === i ? "text-white" : "text-gray-300 group-hover:text-white"
                   }`}
                 >
                   {faq.q}
                 </span>
                 <span
-                  className={`flex-shrink-0 mt-0.5 w-6 h-6 rounded-full border flex items-center justify-center text-xs transition-all duration-300 ${
+                  className={`flex-shrink-0 mt-0.5 w-7 h-7 rounded-full border flex items-center justify-center text-sm transition-all duration-300 ${
                     open === i
                       ? "border-brand-purple bg-brand-purple/15 text-brand-purple-light rotate-45"
                       : "border-dark-border text-gray-600 group-hover:border-brand-purple/40 group-hover:text-brand-purple-light"
@@ -88,7 +88,7 @@ export default function FAQ() {
                   marginBottom: open === i ? '20px' : '0px',
                 }}
               >
-                <p className="text-sm text-gray-400 leading-relaxed pr-10">{faq.a}</p>
+                <p className="text-base text-gray-400 leading-relaxed pr-8">{faq.a}</p>
               </div>
             </div>
           ))}

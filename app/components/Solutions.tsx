@@ -133,12 +133,12 @@ export default function Solutions() {
   const n = niches[activeTab]
 
   return (
-    <section id="servicios" className="py-24 relative">
-      <div className="section-divider mb-24" />
+    <section id="servicios" className="py-14 sm:py-24 relative">
+      <div className="section-divider mb-14 sm:mb-24" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <AnimateIn animation="fade-in-up" className="mb-14">
+        <AnimateIn animation="fade-in-up" className="mb-10 sm:mb-14">
           <p className="label-overline text-brand-purple-light mb-3">
             Soluciones por industria
           </p>
@@ -146,7 +146,7 @@ export default function Solutions() {
             Automatizaciones que{' '}
             <span className="gradient-text">generan resultados reales</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl">
+          <p className="text-gray-400 max-w-2xl text-base">
             No vendemos tecnología. Vendemos horas recuperadas, leads capturados
             y procesos que antes dependían de una persona.
           </p>
@@ -156,12 +156,12 @@ export default function Solutions() {
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-5">
 
             {/* Tab sidebar */}
-            <div className="flex flex-row lg:flex-col gap-2 lg:w-56 shrink-0 overflow-x-auto lg:overflow-x-visible pb-1 lg:pb-0">
+            <div className="flex flex-row lg:flex-col gap-2 lg:w-56 shrink-0 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 -mx-4 px-4 sm:mx-0 sm:px-0">
               {niches.map((niche, i) => (
                 <button
                   key={niche.id}
                   onClick={() => setActiveTab(i)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left whitespace-nowrap lg:whitespace-normal transition-all duration-200 shrink-0 lg:shrink border cursor-pointer ${
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-left whitespace-nowrap lg:whitespace-normal transition-all duration-200 shrink-0 lg:shrink border cursor-pointer min-h-[44px] ${
                     activeTab === i
                       ? 'bg-dark-card border-dark-border-light text-white'
                       : 'border-transparent text-gray-500 hover:text-gray-300 hover:bg-white/4'
@@ -233,19 +233,21 @@ export default function Solutions() {
               </ul>
 
               {/* Pricing + CTA */}
-              <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-white/10">
-                <div>
-                  <p className="text-xs text-gray-500 mb-0.5">Setup</p>
-                  <p className="text-sm font-semibold text-white">{n.setup}</p>
-                </div>
-                <div className="w-px h-7 bg-white/10 hidden sm:block" />
-                <div>
-                  <p className="text-xs text-gray-500 mb-0.5">Retainer mensual</p>
-                  <p className="text-sm font-semibold text-brand-cyan">{n.retainer}</p>
+              <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 sm:gap-4 pt-4 border-t border-white/10">
+                <div className="flex items-center gap-4 sm:contents">
+                  <div>
+                    <p className="text-xs text-gray-500 mb-0.5">Setup</p>
+                    <p className="text-sm font-semibold text-white">{n.setup}</p>
+                  </div>
+                  <div className="w-px h-7 bg-white/10 sm:hidden" />
+                  <div>
+                    <p className="text-xs text-gray-500 mb-0.5">Retainer mensual</p>
+                    <p className="text-sm font-semibold text-brand-cyan">{n.retainer}</p>
+                  </div>
                 </div>
                 <a
                   href="#contacto"
-                  className="ml-auto text-sm px-5 py-2.5 rounded-xl font-medium text-white transition-all border border-white/10 hover:border-white/25 bg-white/5 hover:bg-white/10 cursor-pointer hover:scale-105 active:scale-95"
+                  className="sm:ml-auto text-sm px-5 py-3 sm:py-2.5 rounded-xl font-medium text-white transition-all border border-white/10 hover:border-white/25 bg-white/5 hover:bg-white/10 cursor-pointer text-center min-h-[44px] flex items-center justify-center"
                 >
                   Agendar diagnóstico →
                 </a>

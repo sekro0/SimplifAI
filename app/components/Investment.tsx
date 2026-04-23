@@ -71,8 +71,8 @@ export default function Investment() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   return (
-    <section id="inversion" className="py-24 relative">
-      <div className="section-divider mb-24" />
+    <section id="inversion" className="py-14 sm:py-24 relative">
+      <div className="section-divider mb-14 sm:mb-24" />
 
       {/* Glow */}
       <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-brand-purple/5 rounded-full blur-[130px] pointer-events-none" />
@@ -80,13 +80,13 @@ export default function Investment() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
 
         {/* Header */}
-        <AnimateIn animation="fade-in-up" className="mb-14">
+        <AnimateIn animation="fade-in-up" className="mb-10 sm:mb-14">
           <p className="label-overline text-brand-purple-light mb-3">Inversión</p>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight">
             ¿Cuánto cuesta?{' '}
             <span className="gradient-text">Depende de tu caso.</span>
           </h2>
-          <p className="text-gray-400 max-w-2xl">
+          <p className="text-gray-400 max-w-2xl text-base">
             No tenemos planes fijos porque cada negocio es distinto. Lo que sí tenemos es total transparencia sobre cómo armamos el presupuesto.
           </p>
         </AnimateIn>

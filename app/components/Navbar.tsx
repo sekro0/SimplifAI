@@ -73,7 +73,7 @@ export default function Navbar() {
           {/* Mobile menu button */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
+            className="md:hidden p-3 text-gray-400 hover:text-white transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
             aria-label="Menu"
           >
             {menuOpen ? (
@@ -90,13 +90,13 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="md:hidden border-t border-dark-border px-4 py-4 flex flex-col gap-3">
+          <div className="md:hidden border-t border-dark-border px-4 py-3 flex flex-col gap-1">
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setMenuOpen(false)}
-                className="text-sm text-gray-300 hover:text-white py-1.5 font-medium"
+                className="text-base text-gray-300 hover:text-white py-3 px-2 font-medium min-h-[44px] flex items-center"
               >
                 {l.label}
               </a>
@@ -104,7 +104,7 @@ export default function Navbar() {
             <a
               href="#contacto"
               onClick={() => setMenuOpen(false)}
-              className="mt-1 text-sm px-4 py-2.5 rounded-xl bg-brand-purple hover:bg-brand-purple-light transition-colors font-semibold font-display text-center"
+              className="mt-2 text-base px-4 py-3.5 rounded-xl bg-brand-purple hover:bg-brand-purple-light transition-colors font-semibold font-display text-center min-h-[48px] flex items-center justify-center"
             >
               Agendar diagnóstico
             </a>

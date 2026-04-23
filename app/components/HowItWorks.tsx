@@ -62,21 +62,21 @@ export default function HowItWorks() {
   const { ref: gridRef, isInView: gridInView } = useInView(0.2)
 
   return (
-    <section id="como-funciona" className="py-24 relative">
-      <div className="section-divider mb-24" />
+    <section id="como-funciona" className="py-14 sm:py-24 relative">
+      <div className="section-divider mb-14 sm:mb-24" />
 
       {/* Background accent */}
       <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-brand-cyan/4 rounded-full blur-[100px] pointer-events-none animate-glow-pulse" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
         {/* Header */}
-        <AnimateIn animation="fade-in-up" className="text-center mb-16">
+        <AnimateIn animation="fade-in-up" className="text-center mb-10 sm:mb-16">
           <p className="label-overline text-brand-cyan mb-3">El proceso</p>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight">
             De idea a resultados{' '}
             <span className="gradient-text">en 3–4 semanas</span>
           </h2>
-          <p className="text-gray-400 max-w-xl mx-auto">
+          <p className="text-gray-400 max-w-xl mx-auto text-base">
             Un proceso claro, sin sorpresas. Sabés exactamente qué pasa en cada
             etapa y qué podés esperar.
           </p>

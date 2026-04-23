@@ -66,8 +66,8 @@ const industries = [
 
 export default function TechStack() {
   return (
-    <section className="py-24 relative">
-      <div className="section-divider mb-24" />
+    <section className="py-14 sm:py-24 relative">
+      <div className="section-divider mb-14 sm:mb-24" />
 
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-brand-purple/5 rounded-full blur-[140px] pointer-events-none" />
@@ -75,13 +75,13 @@ export default function TechStack() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
 
         {/* Header */}
-        <AnimateIn animation="fade-in-up" className="text-center mb-14">
+        <AnimateIn animation="fade-in-up" className="text-center mb-10 sm:mb-14">
           <p className="label-overline text-brand-cyan mb-3">Stack técnico</p>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight">
             Conectamos tu negocio con las{' '}
             <span className="gradient-text">mejores herramientas</span>
           </h2>
-          <p className="text-gray-400 max-w-xl mx-auto">
+          <p className="text-gray-400 max-w-xl mx-auto text-base">
             No reinventamos la rueda. Usamos las plataformas líderes del mercado y las conectamos para que trabajen solas.
           </p>
         </AnimateIn>

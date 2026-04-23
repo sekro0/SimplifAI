@@ -34,13 +34,13 @@ export default function StickyCTA() {
       }}
     >
       <div
-        className="pointer-events-auto flex items-center gap-3 px-4 py-2.5 rounded-full border border-brand-purple/40 backdrop-blur-xl"
+        className="pointer-events-auto flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2.5 rounded-full border border-brand-purple/40 backdrop-blur-xl"
         style={{
           background: 'linear-gradient(135deg, rgba(19,19,31,0.92), rgba(13,13,26,0.92))',
           boxShadow: '0 0 20px rgba(124,58,237,0.25), 0 10px 40px rgba(0,0,0,0.45)',
         }}
       >
-        <span className="flex items-center gap-2 text-xs text-gray-400">
+        <span className="hidden sm:flex items-center gap-2 text-xs text-gray-400">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-70" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
@@ -50,7 +50,7 @@ export default function StickyCTA() {
         <span className="hidden sm:inline-block w-px h-4 bg-white/10" />
         <a
           href="#contacto"
-          className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-brand-purple hover:bg-brand-purple-light transition-colors font-display font-semibold text-xs text-white cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-brand-purple hover:bg-brand-purple-light transition-colors font-display font-semibold text-xs text-white cursor-pointer min-h-[36px]"
         >
           Agendar diagnóstico gratis
           <svg width="12" height="12" viewBox="0 0 16 16" fill="none">

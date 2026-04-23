@@ -37,8 +37,8 @@ export default function Contact() {
   ];
 
   return (
-    <section id="contacto" className="py-24 relative">
-      <div className="section-divider mb-24" />
+    <section id="contacto" className="py-14 sm:py-24 relative">
+      <div className="section-divider mb-14 sm:mb-24" />
 
       {/* Glows */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-brand-purple/8 rounded-full blur-[130px] pointer-events-none" />
@@ -132,8 +132,8 @@ export default function Contact() {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="Juan García"
-                        className="w-full px-4 py-2.5 rounded-lg text-white text-sm transition-all focus:outline-none"
-                        style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.18)', color: 'white' }}
+                        className="w-full px-4 py-3 rounded-lg text-white transition-all focus:outline-none"
+                        style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.18)', color: 'white', fontSize: '16px' }}
                         onFocus={e => e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)'}
                         onBlur={e => e.currentTarget.style.borderColor = 'rgba(124,58,237,0.18)'}
                       />
@@ -148,8 +148,8 @@ export default function Contact() {
                         value={formData.business}
                         onChange={(e) => setFormData({ ...formData, business: e.target.value })}
                         placeholder="Mi empresa SRL"
-                        className="w-full px-4 py-2.5 rounded-lg text-white text-sm transition-all focus:outline-none"
-                        style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.18)' }}
+                        className="w-full px-4 py-3 rounded-lg text-white transition-all focus:outline-none"
+                        style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.18)', fontSize: '16px' }}
                         onFocus={e => e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)'}
                         onBlur={e => e.currentTarget.style.borderColor = 'rgba(124,58,237,0.18)'}
                       />
@@ -164,8 +164,8 @@ export default function Contact() {
                       required
                       value={formData.niche}
                       onChange={(e) => setFormData({ ...formData, niche: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-lg text-white text-sm transition-all focus:outline-none appearance-none"
-                      style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.18)' }}
+                      className="w-full px-4 py-3 rounded-lg text-white transition-all focus:outline-none appearance-none"
+                      style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.18)', fontSize: '16px' }}
                     >
                       <option value="" disabled style={{ background: '#0D0D1A', color: '#6b7280' }}>Seleccioná tu rubro</option>
                       {niches.map((n) => (
@@ -184,8 +184,8 @@ export default function Contact() {
                       value={formData.whatsapp}
                       onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
                       placeholder="+1 (555) 000-0000"
-                      className="w-full px-4 py-2.5 rounded-lg text-white text-sm transition-all focus:outline-none"
-                      style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.18)' }}
+                      className="w-full px-4 py-3 rounded-lg text-white transition-all focus:outline-none"
+                      style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.18)', fontSize: '16px' }}
                       onFocus={e => e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)'}
                       onBlur={e => e.currentTarget.style.borderColor = 'rgba(124,58,237,0.18)'}
                     />
@@ -200,8 +200,8 @@ export default function Contact() {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Contanos brevemente el proceso o el dolor principal..."
-                      className="w-full px-4 py-2.5 rounded-lg text-white text-sm transition-all focus:outline-none resize-none"
-                      style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.18)' }}
+                      className="w-full px-4 py-3 rounded-lg text-white transition-all focus:outline-none resize-none"
+                      style={{ background: 'rgba(124,58,237,0.06)', border: '1px solid rgba(124,58,237,0.18)', fontSize: '16px' }}
                       onFocus={e => e.currentTarget.style.borderColor = 'rgba(124,58,237,0.5)'}
                       onBlur={e => e.currentTarget.style.borderColor = 'rgba(124,58,237,0.18)'}
                     />
@@ -209,7 +209,7 @@ export default function Contact() {
 
                   <button
                     type="submit"
-                    className="w-full py-3.5 rounded-xl bg-brand-purple hover:bg-brand-purple-light transition-all font-display font-semibold text-sm glow-purple hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
+                    className="w-full py-4 rounded-xl bg-brand-purple hover:bg-brand-purple-light transition-all font-display font-semibold text-base glow-purple active:scale-[0.99] flex items-center justify-center gap-2 min-h-[52px]"
                   >
                     Agendar diagnóstico gratuito
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">

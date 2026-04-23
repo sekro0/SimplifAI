@@ -95,23 +95,23 @@ const problems = [
 
 export default function Problems() {
   return (
-    <section className="py-24 relative">
-      <div className="section-divider mb-24" />
+    <section className="py-14 sm:py-24 relative">
+      <div className="section-divider mb-14 sm:mb-24" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <AnimateIn animation="fade-in-up" className="mb-16">
+        <AnimateIn animation="fade-in-up" className="mb-10 sm:mb-16">
           <p className="label-overline text-brand-cyan mb-3">El problema real</p>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight">
             ¿Te suena conocido?
           </h2>
-          <p className="text-gray-400 max-w-xl">
+          <p className="text-gray-400 max-w-xl text-base">
             Estos son los dolores que viven los negocios en crecimiento todos los días.
             Y todos tienen solución.
           </p>
         </AnimateIn>
 
-        {/* Asymmetric bento grid — zigzag col-2 / col-1 */}
+        {/* Asymmetric bento grid — single col on mobile, 3-col on sm+ */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {problems.map((p, i) => {
             // Zigzag: 0→col-2, 1→col-1, 2→col-1, 3→col-2, 4→col-2, 5→col-1
@@ -145,11 +145,11 @@ export default function Problems() {
                     {p.number}
                   </span>
 
-                  {/* Content layout: wide cards show icon+title+desc in row */}
+                  {/* Content layout: wide cards show icon+title+desc in row on sm+, stacked on mobile */}
                   {isWide ? (
-                    <div className="flex gap-5 relative z-10">
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 relative z-10">
                       <div
-                        className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
+                        className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
                         style={{ background: `${p.color}18`, color: p.color, border: `1px solid ${p.color}30`, boxShadow: `0 0 16px ${p.color}20` }}
                       >
                         {p.icon}
@@ -159,7 +159,7 @@ export default function Problems() {
                           <span className="text-2xl font-black tabular-nums" style={{ color: `${p.color}25`, WebkitTextStroke: `1px ${p.color}35` }}>{p.number}</span>
                           <h3 className="font-display font-bold text-white text-base tracking-tight leading-snug group-hover:text-gray-100 transition-colors duration-200">{p.title}</h3>
                         </div>
-                        <p className="text-xs text-gray-500 leading-relaxed mb-3">{p.desc}</p>
+                        <p className="text-sm text-gray-500 leading-relaxed mb-3">{p.desc}</p>
                         <span
                           className="inline-flex items-center text-[11px] font-medium px-2.5 py-1 rounded-full"
                           style={{ background: `${p.color}12`, color: p.color, border: `1px solid ${p.color}25` }}
@@ -180,7 +180,7 @@ export default function Problems() {
                         <span className="text-3xl font-black tabular-nums" style={{ color: `${p.color}20`, WebkitTextStroke: `1px ${p.color}30` }}>{p.number}</span>
                       </div>
                       <h3 className="font-display font-bold text-white text-base mb-2 tracking-tight leading-snug group-hover:text-gray-100 transition-colors duration-200">{p.title}</h3>
-                      <p className="text-xs text-gray-500 leading-relaxed mb-4">{p.desc}</p>
+                      <p className="text-sm text-gray-500 leading-relaxed mb-4">{p.desc}</p>
                       <span
                         className="inline-flex items-center text-[11px] font-medium px-2.5 py-1 rounded-full"
                         style={{ background: `${p.color}12`, color: p.color, border: `1px solid ${p.color}25` }}
@@ -196,8 +196,8 @@ export default function Problems() {
         </div>
 
         {/* Bridge text */}
-        <AnimateIn animation="fade-in-up" delay={200} className="mt-10 pt-8 border-t border-dark-border">
-          <p className="text-lg text-gray-300">
+        <AnimateIn animation="fade-in-up" delay={200} className="mt-8 pt-6 sm:mt-10 sm:pt-8 border-t border-dark-border">
+          <p className="text-base sm:text-lg text-gray-300">
             Cada uno de estos problemas{' '}
             <span className="text-white font-semibold">ya tiene solución automatizada</span>.
             El costo de no actuar es más alto que el de implementarla.
