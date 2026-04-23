@@ -36,6 +36,7 @@ export default function ChatWidget() {
   const [telefono, setTelefono]       = useState('')
   const sessionId = useRef('user_' + Math.random().toString(36).substring(2, 10))
   const messagesRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (messagesRef.current) {
@@ -63,6 +64,7 @@ export default function ChatWidget() {
     setInput('')
     setMessages(prev => [...prev, { type: 'user', text }])
     setLoading(true)
+    setTimeout(() => inputRef.current?.focus(), 0)
     try {
       const r = await fetch(WEBHOOK_URL, {
         method: 'POST',
@@ -215,6 +217,7 @@ export default function ChatWidget() {
             </div>
             <div style={{ padding: '12px 14px', background: '#13131F', borderTop: '1px solid #1E1E30', display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
               <input
+                ref={inputRef}
                 value={input} onChange={e => setInput(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg() } }}
                 placeholder="Escribí tu mensaje..."
