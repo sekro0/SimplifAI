@@ -263,10 +263,11 @@ function AutomationFlow() {
                 )
               })}
               {outputPaths.map(({ d, color }, i) => {
-                const isAuto = !hovered && activeLine === i
+                const pairingMap = [2, 1, 0] // output[0]=CRM↔Formulario, output[1]=Agenda↔Email, output[2]=Reportes↔WhatsApp
+                const pairedInput = pairingMap[i]
+                const isAuto = !hovered && activeLine === pairedInput
                 const isHoverOut = hovered?.side === 'out' && hovered.idx === i
-                // When input is hovered, also highlight output with same index (same row)
-                const isHoverInPair = hovered?.side === 'in' && hovered.idx === i
+                const isHoverInPair = hovered?.side === 'in' && hovered.idx === pairedInput
                 const isHighlighted = isAuto || isHoverOut || isHoverInPair
                 const isDimmed = !!hovered && !isHighlighted
                 return (
@@ -341,9 +342,11 @@ function AutomationFlow() {
 
           {/* Output nodes — col 3 */}
           {outputNodes.map((n, i) => {
-            const isAuto = !hovered && activeLine === i
+            const pairingMap = [2, 1, 0]
+            const pairedInput = pairingMap[i]
+            const isAuto = !hovered && activeLine === pairedInput
             const isHoveredOut = hovered?.side === 'out' && hovered.idx === i
-            const isHoveredInPair = hovered?.side === 'in' && hovered.idx === i
+            const isHoveredInPair = hovered?.side === 'in' && hovered.idx === pairedInput
             const isActive = isAuto || isHoveredOut || isHoveredInPair
             const isDimmed = !!hovered && !isActive
             return (
