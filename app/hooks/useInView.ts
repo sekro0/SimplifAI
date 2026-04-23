@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 
-export function useInView(threshold = 0.12) {
+export function useInView(threshold = 0.08) {
   const ref = useRef<HTMLDivElement>(null)
   const [isInView, setIsInView] = useState(false)
 
@@ -10,9 +10,12 @@ export function useInView(threshold = 0.12) {
     if (!el) return
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsInView(entry.isIntersecting)
+        if (entry.isIntersecting) {
+          setIsInView(true)
+          observer.disconnect() // trigger once — never hide again
+        }
       },
-      { threshold }
+      { threshold, rootMargin: '0px 0px -40px 0px' }
     )
     observer.observe(el)
     return () => observer.disconnect()
