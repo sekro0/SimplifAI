@@ -44,6 +44,12 @@ export default function ChatWidget() {
     }
   }, [messages, loading])
 
+  useEffect(() => {
+    if (!loading && phase === 'chat') {
+      inputRef.current?.focus()
+    }
+  }, [loading, phase])
+
   function startChat() {
     if (!nombre.trim() || !email.trim()) { setPrechatErr(true); return }
     setPrechatErr(false)
@@ -64,7 +70,6 @@ export default function ChatWidget() {
     setInput('')
     setMessages(prev => [...prev, { type: 'user', text }])
     setLoading(true)
-    setTimeout(() => inputRef.current?.focus(), 0)
     try {
       const r = await fetch(WEBHOOK_URL, {
         method: 'POST',
