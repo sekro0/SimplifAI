@@ -206,24 +206,5 @@ export default function RootLayout({
     </html>
   );
 }
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <html lang="es" className={`${syne.variable} ${dmSans.variable}`}>
-      <head>
-        {/* Forzamos el favicon con un parámetro de versión para que el navegador lo vea como nuevo */}
-        <link rel="icon" href="/favicon-simplifai.png?v=3" />
-        <link rel="apple-touch-icon" href="/favicon-simplifai.png?v=3" />
-      </head>
-      <body>
-        {children}
-        {/* Aquí activamos Vercel Analytics */}
-        <Analytics />
-      </body>
-    </html>
-  );
-}
+
 
