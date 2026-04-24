@@ -2,10 +2,10 @@
 import { useInView } from '../hooks/useInView'
 
 const animationMap = {
-  'fade-in-up':    'fadeInUp 0.7s ease-out both',
-  'fade-in-left':  'fadeInLeft 0.7s ease-out both',
-  'fade-in-right': 'fadeInRight 0.7s ease-out both',
-  'scale-in':      'scaleIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both',
+  'fade-in-up':    'fadeInUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) both',
+  'fade-in-left':  'fadeInLeft 0.75s cubic-bezier(0.22, 1, 0.36, 1) both',
+  'fade-in-right': 'fadeInRight 0.75s cubic-bezier(0.22, 1, 0.36, 1) both',
+  'scale-in':      'scaleIn 0.65s cubic-bezier(0.34, 1.3, 0.64, 1) both',
   'fade-in':       'fadeIn 0.6s ease-out both',
 }
 
@@ -33,11 +33,12 @@ export default function AnimateIn({
           ? {
               animation: animationMap[animation],
               animationDelay: `${delay}ms`,
+              willChange: 'auto',
             }
           : {
               opacity: 0,
-              transform: getExitTransform(animation),
-              transition: 'opacity 0.4s ease-out, transform 0.4s ease-out',
+              transform: getInitialTransform(animation),
+              willChange: 'opacity, transform',
             }
       }
     >
@@ -46,12 +47,12 @@ export default function AnimateIn({
   )
 }
 
-function getExitTransform(animation: keyof typeof animationMap): string {
+function getInitialTransform(animation: keyof typeof animationMap): string {
   switch (animation) {
-    case 'fade-in-up':    return 'translateY(40px)'
-    case 'fade-in-left':  return 'translateX(-40px)'
-    case 'fade-in-right': return 'translateX(40px)'
-    case 'scale-in':      return 'scale(0.85)'
+    case 'fade-in-up':    return 'translateY(28px)'
+    case 'fade-in-left':  return 'translateX(-28px)'
+    case 'fade-in-right': return 'translateX(28px)'
+    case 'scale-in':      return 'scale(0.9)'
     default:              return 'none'
   }
 }

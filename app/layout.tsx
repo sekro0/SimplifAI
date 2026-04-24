@@ -27,7 +27,10 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.simplifai.com"),
   icons: {
-    icon: "/icon.png",
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png" },
+    ],
     apple: "/icon.png",
   },
 
