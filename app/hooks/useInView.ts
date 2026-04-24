@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
 
-export function useInView(threshold = 0.06) {
+export function useInView(_threshold = 0.06) {
   const ref = useRef<HTMLDivElement>(null)
   const [isInView, setIsInView] = useState(false)
 
@@ -9,24 +9,31 @@ export function useInView(threshold = 0.06) {
     const el = ref.current
     if (!el) return
 
-    // Use the scroll container as root so IntersectionObserver works correctly
-    // when html/body have overflow:hidden and scrolling happens inside a div
-    const scrollRoot = document.getElementById('scroll-container') ?? null
-    const isMobile = window.innerWidth < 768
-    const rootMargin = isMobile ? '0px 0px -20px 0px' : '0px 0px -40px 0px'
+    const scrollContainer = document.getElementById('scroll-container')
+    const offset = window.innerWidth < 768 ? 20 : 40
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsInView(true)
-          observer.disconnect()
-        }
-      },
-      { root: scrollRoot, threshold, rootMargin }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [threshold])
+    const check = () => {
+      const elRect = el.getBoundingClientRect()
+      // containerBottom: how far from viewport top the scroll area ends
+      const containerBottom = scrollContainer
+        ? scrollContainer.getBoundingClientRect().bottom
+        : window.innerHeight
+
+      // Fire when element top enters the visible area (minus a small offset)
+      if (elRect.top < containerBottom - offset && elRect.bottom > 0) {
+        setIsInView(true)
+        const target: EventTarget = scrollContainer ?? window
+        target.removeEventListener('scroll', check)
+      }
+    }
+
+    // Check immediately — handles elements already visible on mount
+    check()
+
+    const target: EventTarget = scrollContainer ?? window
+    target.addEventListener('scroll', check, { passive: true } as AddEventListenerOptions)
+    return () => target.removeEventListener('scroll', check)
+  }, [])
 
   return { ref, isInView }
 }
