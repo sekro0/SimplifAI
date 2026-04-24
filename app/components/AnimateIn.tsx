@@ -1,17 +1,32 @@
 'use client'
 import { useInView } from '../hooks/useInView'
 
-const animationMap = {
-  'fade-in-up':    'fadeInUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) both',
-  'fade-in-left':  'fadeInLeft 0.75s cubic-bezier(0.22, 1, 0.36, 1) both',
-  'fade-in-right': 'fadeInRight 0.75s cubic-bezier(0.22, 1, 0.36, 1) both',
-  'scale-in':      'scaleIn 0.65s cubic-bezier(0.34, 1.3, 0.64, 1) both',
-  'fade-in':       'fadeIn 0.6s ease-out both',
+type AnimationType = 'fade-in-up' | 'fade-in-left' | 'fade-in-right' | 'scale-in' | 'fade-in'
+
+const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)'
+
+function getHiddenTransform(animation: AnimationType): string {
+  switch (animation) {
+    case 'fade-in-up':    return 'translateY(30px)'
+    case 'fade-in-left':  return 'translateX(-30px)'
+    case 'fade-in-right': return 'translateX(30px)'
+    case 'scale-in':      return 'scale(0.92)'
+    default:              return 'translateY(0px)'
+  }
+}
+
+function getVisibleTransform(animation: AnimationType): string {
+  switch (animation) {
+    case 'fade-in-left':
+    case 'fade-in-right': return 'translateX(0px)'
+    case 'scale-in':      return 'scale(1)'
+    default:              return 'translateY(0px)'
+  }
 }
 
 interface Props {
   children: React.ReactNode
-  animation?: keyof typeof animationMap
+  animation?: AnimationType
   delay?: number
   className?: string
 }
@@ -28,31 +43,14 @@ export default function AnimateIn({
     <div
       ref={ref}
       className={className}
-      style={
-        isInView
-          ? {
-              animation: animationMap[animation],
-              animationDelay: `${delay}ms`,
-              willChange: 'auto',
-            }
-          : {
-              opacity: 0,
-              transform: getInitialTransform(animation),
-              willChange: 'opacity, transform',
-            }
-      }
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? getVisibleTransform(animation) : getHiddenTransform(animation),
+        transition: `opacity 0.7s ${EASE} ${delay}ms, transform 0.7s ${EASE} ${delay}ms`,
+        willChange: isInView ? 'auto' : 'opacity, transform',
+      }}
     >
       {children}
     </div>
   )
-}
-
-function getInitialTransform(animation: keyof typeof animationMap): string {
-  switch (animation) {
-    case 'fade-in-up':    return 'translateY(28px)'
-    case 'fade-in-left':  return 'translateX(-28px)'
-    case 'fade-in-right': return 'translateX(28px)'
-    case 'scale-in':      return 'scale(0.9)'
-    default:              return 'none'
-  }
 }
